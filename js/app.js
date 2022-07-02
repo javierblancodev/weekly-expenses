@@ -3,10 +3,11 @@ const formulario = document.querySelector('#agregar-gasto');
 const listadoGasto = document.querySelector('#gastos ul');
 
 // Eventos
-
 eventListeners();
 function eventListeners() {
     document.addEventListener('DOMContentLoaded', preguntarPresupuesto);
+
+    document.addEventListener('submit', agregarGasto)
 }
 
 // Clases
@@ -24,6 +25,23 @@ class UI {
         document.querySelector('#total').textContent = presupuesto;
         document.querySelector('#restante').textContent = restante;
     }
+
+    imprimirAlerta(mensaje, tipo) {
+        const divMensaje = document.createElement('div');
+        divMensaje.classList.add('text-center');
+        if (tipo === 'error') {
+            divMensaje.classList.add('alert-danger');
+        } else {
+            divMensaje.classList.add('alert-danger');
+        }
+
+        divMensaje.textContent = mensaje;
+        
+        document.querySelector('.primario').insertBefore(divMensaje, formulario);
+        setTimeout(() => {
+            divMensaje.remove();
+        }, 3000)
+    }
 }
 
 // Instanciar
@@ -31,7 +49,6 @@ const ui = new UI()
 let presupuesto;
 
 // Funciones
-
 function preguntarPresupuesto() {
     const presupuestoUsuario = prompt('What is your weekly budget?')
     
@@ -42,4 +59,16 @@ function preguntarPresupuesto() {
     presupuesto = new Presupuesto(presupuestoUsuario);
 
     ui.insertarPresupuesto(presupuesto)
+}
+
+function agregarGasto(e) {
+    e.preventDefault();
+
+    const nombre = document.querySelector('#gasto').value;
+    const cantidad = document.querySelector('#cantidad').value;
+    
+    if(nombre === "" || cantidad === "") {
+        ui.imprimirAlerta('Both fields are mandatory', 'error');
+    }
+    
 }
