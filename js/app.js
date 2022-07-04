@@ -36,7 +36,7 @@ class UI {
         if (tipo === 'error') {
             divMensaje.classList.add('alert-danger');
         } else {
-            divMensaje.classList.add('alert-danger');
+            divMensaje.classList.add('alert-success');
         }
 
         divMensaje.textContent = mensaje;
@@ -85,4 +85,8 @@ function agregarGasto(e) {
     presupuesto.nuevoGasto(gasto);
 
     console.log(presupuesto.gastos);
+
+    ui.imprimirAlerta('Expense successfully added');
+
+    formulario.reset();
 }
