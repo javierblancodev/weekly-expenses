@@ -17,6 +17,10 @@ class Presupuesto {
         this.restante = Number(presupuesto);
         this.gastos = [];
     }
+
+    nuevoGasto(gasto) {
+        this.gastos = [...this.gastos, gasto]
+    }
 }
 
 class UI {
@@ -65,10 +69,20 @@ function agregarGasto(e) {
     e.preventDefault();
 
     const nombre = document.querySelector('#gasto').value;
-    const cantidad = document.querySelector('#cantidad').value;
+    const cantidad = +document.querySelector('#cantidad').value;
     
     if(nombre === "" || cantidad === "") {
         ui.imprimirAlerta('Both fields are mandatory', 'error');
+        return;
+    } else if(cantidad <= 0 || isNaN(cantidad)) {
+        ui.imprimirAlerta('Please, enter a valid quantity', 'error')
+        return;
     }
     
+    // Agregar gasto
+    const gasto = { nombre, cantidad, id: Date.now() } // Object literal enhancement
+    
+    presupuesto.nuevoGasto(gasto);
+
+    console.log(presupuesto.gastos);
 }
