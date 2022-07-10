@@ -49,7 +49,10 @@ class UI {
 
     agregarGastoListado(gastos) {
         
+        this.limpiarHTML();
+
         gastos.forEach(gasto => {
+            
             const { id, nombre, cantidad } = gasto;
             
             const nuevoGasto = document.createElement('li');
@@ -66,8 +69,12 @@ class UI {
 
             listadoGasto.appendChild(nuevoGasto);
         });
-        
-        
+    }
+
+    limpiarHTML() {
+        while( listadoGasto.firstChild ) {
+            listadoGasto.removeChild(listadoGasto.firstChild);
+        }
     }
 }
 
