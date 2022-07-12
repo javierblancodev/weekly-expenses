@@ -19,7 +19,15 @@ class Presupuesto {
     }
 
     nuevoGasto(gasto) {
-        this.gastos = [...this.gastos, gasto]
+        this.gastos = [...this.gastos, gasto];
+        this.calcularGastado();
+    }
+
+    calcularGastado() {
+        const gastado = this.gastos.reduce((total, gasto) => total + gasto.cantidad, 0);
+        
+        this.restante = this.presupuesto - gastado;
+        console.log(this.restante);
     }
 }
 
@@ -59,7 +67,7 @@ class UI {
             nuevoGasto.className = 'list-group-item d-flex justify-content-between align-items-center';
             nuevoGasto.dataset.id = id;
 
-            nuevoGasto.innerHTML = `${nombre} <span class="badge badge-primary badge-pill">${cantidad}</span>`;
+            nuevoGasto.innerHTML = `${nombre} <span class="badge badge-primary badge-pill">$${cantidad}</span>`;
 
             const btnBorrar = document.createElement('button');
             btnBorrar.innerHTML = 'Delete &times'
@@ -76,6 +84,10 @@ class UI {
             listadoGasto.removeChild(listadoGasto.firstChild);
         }
     }
+
+    actualizarRestante(restante) {
+        document.querySelector('#restante').textContent = restante;
+    };
 }
 
 // Instanciar
@@ -114,8 +126,9 @@ function agregarGasto(e) {
     
     presupuesto.nuevoGasto(gasto);
 
-    const { gastos } = presupuesto;
+    const { gastos, restante } = presupuesto;
     ui.agregarGastoListado(gastos);
+    ui.actualizarRestante(restante);
 
     ui.imprimirAlerta('Expense successfully added');
 
