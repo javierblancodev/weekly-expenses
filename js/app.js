@@ -20,14 +20,21 @@ class Presupuesto {
 
     nuevoGasto(gasto) {
         this.gastos = [...this.gastos, gasto];
-        this.calcularGastado();
+        this.calcularRestante();
     }
 
-    calcularGastado() {
+    calcularRestante() {
         const gastado = this.gastos.reduce((total, gasto) => total + gasto.cantidad, 0);
         
         this.restante = this.presupuesto - gastado;
-        console.log(this.restante);
+    }
+
+    eliminarGasto(id) {
+        this.gastos = this.gastos.filter( gasto => gasto.id !== id);
+        ui.mostrarGastos(this.gastos);
+        this.calcularRestante();
+        ui.actualizarRestante(this.restante);
+        ui.comprobarPresupuesto(presupuesto);
     }
 }
 
@@ -52,10 +59,10 @@ class UI {
         document.querySelector('.primario').insertBefore(divMensaje, formulario);
         setTimeout(() => {
             divMensaje.remove();
-        }, 3000)
+        }, 3000);
     }
 
-    agregarGastoListado(gastos) {
+    mostrarGastos(gastos) {
         
         this.limpiarHTML();
 
@@ -72,6 +79,9 @@ class UI {
             const btnBorrar = document.createElement('button');
             btnBorrar.innerHTML = 'Delete &times'
             btnBorrar.classList.add('btn', 'btn-danger', 'borrar-gasto');
+            btnBorrar.onclick = () => {
+                presupuesto.eliminarGasto(id);
+            }
 
             nuevoGasto.appendChild(btnBorrar);
 
@@ -145,7 +155,7 @@ function agregarGasto(e) {
 
     presupuesto.nuevoGasto(gasto);
     const { gastos, restante } = presupuesto;
-    ui.agregarGastoListado(gastos);
+    ui.mostrarGastos(gastos);
     ui.actualizarRestante(restante);
     ui.comprobarPresupuesto(presupuesto);
 
