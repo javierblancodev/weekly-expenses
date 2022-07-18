@@ -106,8 +106,11 @@ class UI {
             restanteDiv.classList.remove('alert-success', 'alert-warning');
             restanteDiv.classList.add('alert-danger');
         } else if ((presupuesto/2) > restante) {
-            restanteDiv.classList.remove('alert-success');
-            restanteDiv.classList.add('alert-warning', 'alert-danger');
+            restanteDiv.classList.remove('alert-success', 'alert-danger');
+            restanteDiv.classList.add('alert-warning');
+        } else {
+            restanteDiv.classList.remove('alert-danger', 'alert-warning');
+            restanteDiv.classList.add('alert-success');
         }
 
         if (restante <= 0) {
